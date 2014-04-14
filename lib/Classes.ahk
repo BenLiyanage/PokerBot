@@ -15,7 +15,7 @@ class Game
 		; An Array of Players.  Players should be in the order they play hands
 		this.Player := Players
 		this.CurrentHand := Hand
-		this.MyPosition := MyPosition
+		this.MyPosition := MyPosition	
 	}
 	
 	AddPlayer(Player, Position)
@@ -33,13 +33,13 @@ class Game
 		if CurrentHand = ""
 			throw exception("No hand is currently initialized")
 		
-		if ShouldIBet()
+		if this.ShouldIBet()
 		{
-			Bet()
+			this.Bet()
 		}
 		else
 		{
-			Pass()
+			this.Pass()
 		}
 	}
 	
