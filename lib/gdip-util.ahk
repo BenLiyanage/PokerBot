@@ -8,6 +8,7 @@
 /* 
  * Example Usage 
  */
+ #Include %A_ScriptDir%\lib\gdip.ahk
  
 If(A_ScriptName="gdip-util.ahk")
 {
