@@ -4,7 +4,7 @@
 ;Initialize Logging
 Class_Console("Console", 100, 100, 300, 500)
 Console.show("Console")
-
+/*
 ;Test_ShouldIBet
 myGame := new Game(new Array(1,2,3), new Array(new Array("4C", "4D"),new Array("AC", "QH"),	new Array("5S", "JS")),	1) ; End new Game()
 if (myGame.ShouldIBet() == true)
@@ -13,6 +13,7 @@ if (myGame.ShouldIBet() == true)
 	;throw new exception("Should not have bet")
 }
 
+*/
 ;Test_ScreenMaper
 myScreenMapper := new ScreenMapper()
 if (myScreenMapper.isInitialized() == false)
@@ -26,7 +27,6 @@ if (myScreenMapper.x != 10 && myScreenMapper.y != 10)
 {
 	Console.log("coordinates wrong")
 }
-
 ;Test_ScreenMapper_FindImage with invalidImage
 try
 {
@@ -40,6 +40,9 @@ if (myScreenMapper.FindImage(A_ScriptDir . "\Assets\photo.jpg") == true)
 {
 	Console.log("Found Image and shouldn't")
 }
+
+testArray := new Array(A_ScriptDir . "\Assets\photo.jpg")
+myScreenMapper.FindImages(testArray)
 
 WinWaitClose,Console DebugID "Console"
 ExitApp
