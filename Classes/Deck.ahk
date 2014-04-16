@@ -15,26 +15,22 @@ Class Deck
 		this.myLogger := Logger
 		
 		; Register All Known Cards
-		this.myCards := this.RegisterCards(this.myPathToDeck)
-		/*
-		; Register all unknown cards
-		Loop, % this.myPathToDeck "\Unknown\*.jpg", 0, 0
-		{
-			myCard := Card(
-		}
-		*/
+		this.myCards := this.RegisterCards(this.myPathToDeck, false)
+		
+		; Register unknown cards. These will be used when scraping cards so we don't duplicate images of cards we already know
+		this.myUnknownCards := this.RegisterCards(this.myPathToDeck "\Unknown", true)		
 	}
 	
-	RegisterCards(Path)
+	RegisterCards(path, alwaysRegister)
 	{
 		myTempCards := Object()
 		
-		Loop, %Path%\*.jpg, 0, 0
+		Loop, %path%\*.jpg, 0, 0
 		{
 			myCard := new Card(A_LoopFileName, A_LoopFileFullPath)
 			
 			; Check validity of Card
-			if (not(myCard.isValid))
+			if (not(myCard.isValid) && not(alwaysRegister))
 			{
 				;Warn about files out of format.
 				this.myLogger.log(myCard.inValidReason)

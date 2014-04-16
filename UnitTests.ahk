@@ -76,6 +76,11 @@ if (myDeck.myCards.MaxIndex() != 1)
 	Console.log("Expecting only 1 valid card in the test deck. Found " myDeck.myCards.MaxIndex())
 }
 
+if (myDeck.myUnknownCards.MaxIndex() != 1)
+{
+	Console.log("Expecting only 1 unknown card in the deck.  Found " myDeck.myUnknownCards.MaxIndex())
+}
+
 testArray := new Array(A_ScriptDir . "\Assets\photo.jpg")
 myScreenMapper.FindImages(testArray)
 
