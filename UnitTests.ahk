@@ -1,5 +1,7 @@
 #Include %A_ScriptDir%\lib\Classes.ahk
 #Include %A_ScriptDir%\Classes\ScreenMapper.ahk
+#Include %A_ScriptDir%\Classes\Card.ahk
+#Include %A_ScriptDir%\Classes\Deck.ahk
 
 ;Initialize Logging
 Class_Console("Console", 100, 100, 300, 500)
@@ -41,6 +43,27 @@ if (myScreenMapper.FindImage(A_ScriptDir . "\Assets\photo.jpg") == true)
 	Console.log("Found Image and shouldn't")
 }
 
+;Test_Card
+myCardBadFileName = new Card("Wheeeee")
+if (myCardBadFileName.isValid)
+{
+	Console.log("Card was valid with bad filename")
+}
+
+myCardBadRank = new Card("IH.jpg")
+if (myCardBadRank.isValid)
+{
+	Console.log("Card was valid with a bad rank")
+}
+
+myCardBadBadSuit = new Card("AI.jpg")
+if (myCardBadSuit.isValid)
+{
+	Console.log("Card was valid with bad suit.")
+}
+
+;Test_Deck
+myDeck := new Deck()
 testArray := new Array(A_ScriptDir . "\Assets\photo.jpg")
 myScreenMapper.FindImages(testArray)
 

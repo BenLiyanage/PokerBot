@@ -25,8 +25,8 @@ Class Card
 		; Examples: 2S.jpg = Two of Spades, AH.jpg = Ace of Hearts
 		
 		; Basic Validation
-				
-		if (StringLen(this.FileName) != 5)
+		len := StrLen(this.FileName)		
+		if (len != 5)
 		{
 			this.inValidReason := "Not a valid filename: " this.FileName "; Expected RS.jpg, where R is one of " this.ValidRanks " and S is one of " this.ValidSuits "."
 			return 

@@ -35,32 +35,11 @@ class ScreenMapper
 			; could not find image.
 			; take a screen shot of the selected area for later analysis
 			
-			
-			
 			return false
 		}
 		else
 		{
 			throw exception "could not load image " . ImageFileName
 		}
-	}
-	
-	FindImages(ImageFileNameArray)
-	{	
-		foundImage := false
-		for ImageFileName in ImageFileNameArray
-		{
-			if (this.FindImage(ImageFileName))
-			{
-				foundImage := true
-				return true
-			}
-		}
-		screen := this.x "|" this.y "|" this.w "|" this.h
-		filename := A_ScriptDir "\Assets\Unknown\" A_Now ".png"
-		Screenshot(filename, screen)
-		return false
-		;msgBox(ImageFileNameArray.MaxIndex())
-		
-	}
+	}	
 }
