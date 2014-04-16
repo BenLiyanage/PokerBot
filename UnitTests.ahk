@@ -43,6 +43,26 @@ if (myScreenMapper.FindImage(A_ScriptDir . "\Assets\photo.jpg") == true)
 	Console.log("Found Image and shouldn't")
 }
 
+;TestScreenMapper_Screenshot
+filename := A_ScriptDir . "\Assets\" A_Now ".jpg"
+myScreenMapper.Screenshot(filename)
+;Verify that image exists
+
+myFile := FileOpen(filename, "r")
+if (not(IsObject(myFile)))
+{
+	Console.log("Could not find screenshot")
+}
+myFile.Close()
+myFile = ""
+
+;remove the screenshot -- this test is failing
+FileDelete, filename 
+if (ErrorLevel != 0 or A_LastError !=0)
+{
+	Console.log("Could not delete screenshot. A_LastError: " A_LastError "; ErrorLevel: " ErrorLevel)
+}
+
 ;Test_Card
 myCardBadFileName := new Card("Wheeeee","c:\wheeeeeeeeeee")
 if (myCardBadFileName.isValid == true)
@@ -68,7 +88,7 @@ if (myCardValidCard.isValid == false)
 	Console.log("Card was valid, but returned as invalid" myCardValidCard.inValidReason)
 }
 
-;Test_Deck
+;Test_Deck 
 myDeck := new Deck(A_ScriptDir "\Assets\site1\deck", Console)
 
 if (myDeck.myCards.MaxIndex() != 1)
@@ -80,6 +100,17 @@ if (myDeck.myUnknownCards.MaxIndex() != 1)
 {
 	Console.log("Expecting only 1 unknown card in the deck.  Found " myDeck.myUnknownCards.MaxIndex())
 }
+
+; Let's try to find a "Card".  This will be the upper left hand corner of the screen.  This should fail, but create a screenshot.
+myCard := myDeck.FindCard(0,0,10,10)
+if (myCard.isValid==true)
+{
+	Console.log("Found a card and we shouldn't")
+}
+
+; verify that the screenshot was taken
+
+; Find the card we just
 
 testArray := new Array(A_ScriptDir . "\Assets\photo.jpg")
 myScreenMapper.FindImages(testArray)

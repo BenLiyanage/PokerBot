@@ -44,11 +44,38 @@ Class Deck
 		return myTempCards
 	}
 	
-	FindCardOnScreen(x, y, w, h)
+	FindCard(x, y, w, h)
 	{	
 		foundImage := false
-		myImageMapper := new ScreenMapper(x,y,w,h)
+		myScreenMapper := new ScreenMapper(x,y,w,h)
 		
+		myCard := this.FindCardArray(myCards, myImageMapper)
+		
+		if (myCard != "") ; We found a card, send it back!
+		{
+			MsgBox found a card
+			return myCard
+		}
+		else
+		{
+			MsgBox didn't find a card
+			myCard := this.FindCardArray(myUnknownCards, myImageMapper)
+			
+			if (myCard == "") ; We don't know this card.  Let's scrape it for analysis later.
+			{
+				filename := this.myPathToDeck "\Unknown\" A_Now ".png"
+				MsgBox scrapping
+				MsgBox % "x coordinate :" myScreenMapper.x
+				myScreenMapper.Screenshot(filename)				
+			}
+			
+			; We don't know what this card is.
+			return ""
+		}
+	}
+	
+	FindCardArray(myCardArray, myImageMapper)
+	{
 		for myCard in myCardArray
 		{
 			if (myImageMapper.FindImage(myCard.FileFullImage))
@@ -57,9 +84,7 @@ Class Deck
 				return myCard
 			}
 		}
-		screen := this.x "|" this.y "|" this.w "|" this.h
-		filename := PathToDeck "\Unknown\" A_Now ".png"
-		Screenshot(filename, screen)
-		return false
+		
+		return
 	}
 }
