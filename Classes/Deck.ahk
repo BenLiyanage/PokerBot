@@ -59,32 +59,37 @@ Class Deck
 		else
 		{
 			MsgBox didn't find a card
-			myCard := this.FindCardArray(myUnknownCards, myImageMapper)
+			myCard := this.FindCardArray(myUnknownCards, myScreenMapper)
+			MsgBox % "FileFullPath" myCard.FileFullPath
 			
-			if (myCard == "") ; We don't know this card.  Let's scrape it for analysis later.
+			if (myCard.isValid == "") ; We don't know this card.  Let's scrape it for analysis later.
 			{
-				filename := this.myPathToDeck "\Unknown\" A_Now ".png"
-				MsgBox scrapping
-				MsgBox % "x coordinate :" myScreenMapper.x
-				myScreenMapper.Screenshot(filename)				
+				msgbox didn't find an unknown card
+				filename :=  A_Now ".jpg"
+				fullpath := this.myPathToDeck "\Unknown\" filename
+				myScreenMapper.Screenshot(fullpath)
+
+				; card is scrapped, let's add it to our unknown cards
+				myCard := new Card(filename, fullpath)
+				this.myUnknownCards.Insert(myCard)
 			}
 			
-			; We don't know what this card is.
-			return ""
+			; We don't know what this card is, however return the invalid card.
+			return myCard
 		}
 	}
 	
-	FindCardArray(myCardArray, myImageMapper)
+	FindCardArray(myCardArray, myScreenMapper)
 	{
 		for myCard in myCardArray
 		{
-			if (myImageMapper.FindImage(myCard.FileFullImage))
+			if (myScreenMapper.FindImage(myCard.FileFullImage))
 			{
 				foundImage := true
 				return myCard
 			}
 		}
 		
-		return
+		return ""
 	}
 }

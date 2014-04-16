@@ -47,7 +47,6 @@ class ScreenMapper
 	{
 		screen := this.x "|" this.y "|" this.w "|" this.h 
 		
-		MsgBox scraping image "%screen%" "%outfile%"
 		pToken := Gdip_Startup()
 		raster := 0x40000000 + 0x00CC0020
 

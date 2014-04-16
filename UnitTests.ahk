@@ -43,6 +43,10 @@ if (myScreenMapper.FindImage(A_ScriptDir . "\Assets\photo.jpg") == true)
 	Console.log("Found Image and shouldn't")
 }
 
+;TestScreeMapper_FindImage with a good image
+
+; TODO
+
 ;TestScreenMapper_Screenshot
 filename := A_ScriptDir . "\Assets\" A_Now ".jpg"
 myScreenMapper.Screenshot(filename)
@@ -102,18 +106,42 @@ if (myDeck.myUnknownCards.MaxIndex() != 1)
 }
 
 ; Let's try to find a "Card".  This will be the upper left hand corner of the screen.  This should fail, but create a screenshot.
-myCard := myDeck.FindCard(0,0,10,10)
+myFirstCard := myDeck.FindCard(0,0,10,10)
 if (myCard.isValid==true)
 {
 	Console.log("Found a card and we shouldn't")
 }
 
-; verify that the screenshot was taken
+; verify that the screenshot was taken, and stored in the unknown cards deck
+if (myDeck.myUnknownCards.MaxIndex() != 2)
+{
+	Console.log("Expected 2 unknown cards in the deck.  Found " myDeck.myUnknownCards.MaxIndex())
+}
 
-; Find the card we just
+; verify that the file was written
+myFile := FileOpen(myFirstCard.FileFullPath,"r")
+if (not(IsObject(myFile)))
+{
+	Console.log("Could not find screenshot.  FileFullPath: " myFirstCard.FileFullPath)
+}
+myFile.Close()
 
-testArray := new Array(A_ScriptDir . "\Assets\photo.jpg")
-myScreenMapper.FindImages(testArray)
+; Find the card we just searched for again.  
+mySecondCard := myDeck.FindCard(0,0,10,10)
+
+;the number of unknown cards should stay the same.
+if (myDeck.myUnknownCards.MaxIndex() != 2)
+{
+	Console.log("Expected 2 unknown cards in the deck.  Found " myDeck.myUnknownCards.MaxIndex())
+}
+
+; I believe the image fine is not working.
+
+;the first and second card should be the same
+if (myFirstCard.FileFullPath != mySecondCard.FileFullPath)
+{
+	Console.log("A second screenshot was taken, and shouldn't have been; myFirstCard.FileFullPath: " myFirstCard.FileFullPath "; mySecondCard.FileFullPath" mySecondCard.FileFullPath)
+}
 
 WinWaitClose,Console DebugID "Console"
 ExitApp
