@@ -2,7 +2,8 @@
 
 Class Deck 
 {
-	myCards := new Array()
+	myCards := Object()
+	myUnknownCards := Object()
 	
 	myPathToDeck := ""
 	
@@ -12,23 +13,40 @@ Class Deck
 	{
 		this.myPathToDeck := PathToDeck
 		this.myLogger := Logger
-				
-		Loop, this.PathToDeck, 0, 0
+		
+		; Register All Known Cards
+		this.myCards := this.RegisterCards(this.myPathToDeck)
+		/*
+		; Register all unknown cards
+		Loop, % this.myPathToDeck "\Unknown\*.jpg", 0, 0
 		{
+			myCard := Card(
+		}
+		*/
+	}
+	
+	RegisterCards(Path)
+	{
+		myTempCards := Object()
+		
+		Loop, Path "\*.jpg", 0, 0
+		{
+			MsgBox hi
 			myCard := new Card(A_LoopFileName, A_LoopFileFullPath)
 			
 			; Check validity of Card
 			if (not(myCard.isValid))
 			{
 				;Warn about files out of format.
-				myLogger.log(myCard.inValidReason)
+				this.myLogger.log(myCard.inValidReason)
 			}
 			else ; we have a valid card, add it to the deck
 			{
-				myCards.Insert(myCard)
+				myCardArray.Insert(myCard)
 			}
 		}
 		
+		return myTempCards
 	}
 	
 	FindCardOnScreen(x, y, w, h)
@@ -48,7 +66,5 @@ Class Deck
 		filename := PathToDeck "\Unknown\" A_Now ".png"
 		Screenshot(filename, screen)
 		return false
-		;msgBox(ImageFileNameArray.MaxIndex())
-		
 	}
 }

@@ -25,27 +25,32 @@ Class Card
 		; Examples: 2S.jpg = Two of Spades, AH.jpg = Ace of Hearts
 		
 		; Basic Validation
-		len := StrLen(this.FileName)		
-		if (len != 5)
+		len := StrLen(this.FileName)	
+		
+		if (len != 6)
 		{
-			this.inValidReason := "Not a valid filename: " this.FileName "; Expected RS.jpg, where R is one of " this.ValidRanks " and S is one of " this.ValidSuits "."
-			return 
+			this.inValidReason := "Not a valid filename: " this.FileName "; Expected length of 6;  Got length of " len
+			return this
 		}
 		
 		this.Rank := SubStr(this.FileName, 1, 1)
 		this.Suit := SubStr(this.FileName, 2, 1)
 		
-		this.RankPosition := InStr(this.ValidRanks, Rank)
+		this.RankPosition := InStr(this.ValidRanks, this.Rank)
 		if (this.RankPosition == 0)
 		{
 			this.inValidReason := "Not a valid rank.  Rank found: " this.Rank "; Rank expected: " this.ValidRanks "."
-			return
+			return this
 		}
-				
-		if (InStr(ValidSuit, this.Suit) == 0)
+		
+		suitPosition := InStr(this.ValidSuits, this.Suit)
+		if (suitPosition == 0)
 		{
-			this.inValidReason := "Not a valid Suit.  Suit found: " this.Suit "; Suit expected: " this.ValidSuits "."
-			return
-		}		
+			this.inValidReason := "Not a valid Suit.  Suit found: " this.Suit "; SuitPosition: " suitPosition "; Suit expected: " this.ValidSuits "."
+			return this
+		}
+		
+		this.isValid := true 
+		return this
 	}
 }

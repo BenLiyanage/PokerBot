@@ -44,26 +44,38 @@ if (myScreenMapper.FindImage(A_ScriptDir . "\Assets\photo.jpg") == true)
 }
 
 ;Test_Card
-myCardBadFileName = new Card("Wheeeee")
-if (myCardBadFileName.isValid)
+myCardBadFileName := new Card("Wheeeee","c:\wheeeeeeeeeee")
+if (myCardBadFileName.isValid == true)
 {
 	Console.log("Card was valid with bad filename")
 }
 
-myCardBadRank = new Card("IH.jpg")
-if (myCardBadRank.isValid)
+myCardBadRank := new Card("IH.jpg", "c:\wheeee")
+if (myCardBadRank.isValid == true)
 {
 	Console.log("Card was valid with a bad rank")
 }
 
-myCardBadBadSuit = new Card("AI.jpg")
-if (myCardBadSuit.isValid)
+myCardBadSuit := new Card("AI.jpg", "c:\wheeee")
+if (myCardBadSuit.isValid == true)
 {
 	Console.log("Card was valid with bad suit.")
 }
 
+myCardValidCard := new Card("AH.jpg", "c:\wheeee")
+if (myCardValidCard.isValid == false)
+{
+	Console.log("Card was valid, but returned as invalid" myCardValidCard.inValidReason)
+}
+
 ;Test_Deck
-myDeck := new Deck()
+myDeck := new Deck(A_ScriptDir "\Assets\site1\deck", Console)
+
+if (myDeck.myCards.MaxIndex() != 1)
+{
+	Console.log("Expecting only 1 valid card in the test deck. Found " myDeck.myCards.MaxIndex())
+}
+
 testArray := new Array(A_ScriptDir . "\Assets\photo.jpg")
 myScreenMapper.FindImages(testArray)
 
