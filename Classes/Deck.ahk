@@ -29,9 +29,8 @@ Class Deck
 	{
 		myTempCards := Object()
 		
-		Loop, Path "\*.jpg", 0, 0
+		Loop, %Path%\*.jpg, 0, 0
 		{
-			MsgBox hi
 			myCard := new Card(A_LoopFileName, A_LoopFileFullPath)
 			
 			; Check validity of Card
@@ -42,7 +41,7 @@ Class Deck
 			}
 			else ; we have a valid card, add it to the deck
 			{
-				myCardArray.Insert(myCard)
+				myTempCards.Insert(myCard)
 			}
 		}
 		
