@@ -16,6 +16,7 @@ if (myGame.ShouldIBet() == true)
 }
 
 */
+
 ;Test_ScreenMaper
 myScreenMapper := new ScreenMapper()
 if (myScreenMapper.isInitialized() == false)
@@ -24,11 +25,12 @@ if (myScreenMapper.isInitialized() == false)
 }
 
 ;Test_ScreenMapper_SetRect
-myScreenMapper.SetRect(10,10,500,500)
-if (myScreenMapper.x != 10 && myScreenMapper.y != 10)
+myScreenMapper.SetRect(1000,0,100,50)
+if (myScreenMapper.x != 0 && myScreenMapper.y != 0)
 {
 	Console.log("coordinates wrong")
 }
+
 ;Test_ScreenMapper_FindImage with invalidImage
 try
 {
@@ -43,12 +45,8 @@ if (myScreenMapper.FindImage(A_ScriptDir . "\Assets\photo.jpg") == true)
 	Console.log("Found Image and shouldn't")
 }
 
-;TestScreeMapper_FindImage with a good image
-
-; TODO
-
 ;TestScreenMapper_Screenshot
-filename := A_ScriptDir . "\Assets\" A_Now ".jpg"
+filename := A_ScriptDir . "\Assets\" A_Now ".bmp"
 myScreenMapper.Screenshot(filename)
 ;Verify that image exists
 
@@ -58,10 +56,15 @@ if (not(IsObject(myFile)))
 	Console.log("Could not find screenshot")
 }
 myFile.Close()
-myFile = ""
+
+;TestScreeMapper_FindImage with our new image
+if (myScreenMapper.FindImage(filename) == false)
+{
+	Console.log("Couldn't find my image")
+}
 
 ;remove the screenshot -- this test is failing
-FileDelete, filename 
+FileDelete, %filename%
 if (ErrorLevel != 0 or A_LastError !=0)
 {
 	Console.log("Could not delete screenshot. A_LastError: " A_LastError "; ErrorLevel: " ErrorLevel)
@@ -72,6 +75,11 @@ myCardBadFileName := new Card("Wheeeee","c:\wheeeeeeeeeee")
 if (myCardBadFileName.isValid == true)
 {
 	Console.log("Card was valid with bad filename")
+}
+
+if (myCardBadFileName.FileFullPath != "c:\wheeeeeeeeeee")
+{
+	Console.log("FileFullPath" myCardBadFileName.FileFullPath)
 }
 
 myCardBadRank := new Card("IH.jpg", "c:\wheeee")
@@ -107,7 +115,7 @@ if (myDeck.myUnknownCards.MaxIndex() != 1)
 
 ; Let's try to find a "Card".  This will be the upper left hand corner of the screen.  This should fail, but create a screenshot.
 myFirstCard := myDeck.FindCard(0,0,10,10)
-if (myCard.isValid==true)
+if (myFirstCard.isValid==true)
 {
 	Console.log("Found a card and we shouldn't")
 }
@@ -143,5 +151,6 @@ if (myFirstCard.FileFullPath != mySecondCard.FileFullPath)
 	Console.log("A second screenshot was taken, and shouldn't have been; myFirstCard.FileFullPath: " myFirstCard.FileFullPath "; mySecondCard.FileFullPath" mySecondCard.FileFullPath)
 }
 
+Console.log("All done")
 WinWaitClose,Console DebugID "Console"
 ExitApp

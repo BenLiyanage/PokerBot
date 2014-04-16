@@ -24,7 +24,7 @@ class ScreenMapper
 	
 	FindImage(ImageFileName)
 	{
-		ImageSearch, FoundX, FoundY, x, y, x+w, y+h, %ImageFileName%
+		ImageSearch, FoundX, FoundY, this.x, this.y, this.x + this.w, this.y + this.h, *100 %ImageFileName%
 		
 		if (ErrorLevel == 0)
 		{
@@ -32,9 +32,7 @@ class ScreenMapper
 		}
 		else if (ErrorLevel ==1)
 		{
-			; could not find image.
-			; take a screen shot of the selected area for later analysis
-			
+			; could not find image
 			return false
 		}
 		else
@@ -45,12 +43,19 @@ class ScreenMapper
 
 	Screenshot(outfile) ; Save screenshot from defined coordinates.
 	{
-		screen := this.x "|" this.y "|" this.w "|" this.h 
+		WinGetActiveStats, Title, Width, Height, winX, winY
+		screen := this.x + winX "|" this.y + winY "|" this.w "|" this.h 
 		
 		pToken := Gdip_Startup()
-		raster := 0x40000000 + 0x00CC0020
+		raster := 0x00CC0020
+		; 
+		; From MSDN: http://msdn.microsoft.com/en-us/library/aa930997.aspx
+		; SRCCOPY = 0x00CC0020
+		; SRCCOPY = Copies the source rectangle directly to the destination rectangle.		
+		; See MSDN for additional options.
+		; Hex values for additional options are in gdip.ahnk in desription for BitBlt function.
 
-		pBitmap := Gdip_BitmapFromScreen(screen,raster)
+		pBitmap := Gdip_BitmapFromScreen(screen, raster)
 
 		returnValue := Gdip_SaveBitmapToFile(pBitmap, outfile, 100)
 		if (returnValue != 0)
